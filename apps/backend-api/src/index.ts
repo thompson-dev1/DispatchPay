@@ -6,11 +6,18 @@ import * as dotenv from 'dotenv';
 import { db } from '@dispatchpay/db';
 import authPlugin from './plugins/authenticate';
 import authRoutes from './routes/auth';
+import deliveryRoutes from './routes/deliveries';
+import businessRoutes from './routes/businesses';
+import riderRoutes from './routes/riders';
+import paymentRoutes from './routes/payments';
+import payoutRoutes from './routes/payouts';
+import { MoolreService } from './services/moolre.service';
 
 declare module 'fastify' {
   export interface FastifyInstance {
     authenticate(request: import('fastify').FastifyRequest, reply: import('fastify').FastifyReply): Promise<void>;
     requireRole(allowedRoles: string[]): (request: import('fastify').FastifyRequest, reply: import('fastify').FastifyReply) => Promise<void>;
+    moolre: MoolreService;
   }
 }
 
@@ -49,8 +56,31 @@ const start = async () => {
     // Register Custom Auth Plugin
     await fastify.register(authPlugin);
 
+    // Instantiate and Decorate Moolre Service
+    const moolreServiceInstance = new MoolreService({
+      apiKey: process.env.MOOLRE_API_KEY || 'moolre-sandbox-api-key',
+      baseUrl: process.env.MOOLRE_BASE_URL || 'https://sandbox.moolre.com/api',
+      webhookSecret: process.env.MOOLRE_WEBHOOK_SECRET || 'moolre-webhook-secret-key',
+    });
+    fastify.decorate('moolre', moolreServiceInstance);
+
     // Register Auth Routes
     await fastify.register(authRoutes, { prefix: '/api/v1/auth' });
+
+    // Register Delivery Routes
+    await fastify.register(deliveryRoutes, { prefix: '/api/v1/deliveries' });
+
+    // Register Business Routes
+    await fastify.register(businessRoutes, { prefix: '/api/v1/businesses' });
+
+    // Register Rider Routes
+    await fastify.register(riderRoutes, { prefix: '/api/v1/riders' });
+
+    // Register Payment Routes
+    await fastify.register(paymentRoutes, { prefix: '/api/v1/payments' });
+
+    // Register Payout Routes
+    await fastify.register(payoutRoutes, { prefix: '/api/v1/payouts' });
 
     // Health check route
     fastify.get('/health', async (_request, reply) => {
