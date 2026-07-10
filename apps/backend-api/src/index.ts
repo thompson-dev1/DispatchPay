@@ -4,6 +4,15 @@ import cookie from '@fastify/cookie';
 import jwt from '@fastify/jwt';
 import * as dotenv from 'dotenv';
 import { db } from '@dispatchpay/db';
+import authPlugin from './plugins/authenticate';
+import authRoutes from './routes/auth';
+
+declare module 'fastify' {
+  export interface FastifyInstance {
+    authenticate(request: import('fastify').FastifyRequest, reply: import('fastify').FastifyReply): Promise<void>;
+    requireRole(allowedRoles: string[]): (request: import('fastify').FastifyRequest, reply: import('fastify').FastifyReply) => Promise<void>;
+  }
+}
 
 dotenv.config();
 
@@ -36,6 +45,12 @@ const start = async () => {
     await fastify.register(jwt, {
       secret: process.env.JWT_SECRET || 'dispatchpay-jwt-secret-very-long',
     });
+
+    // Register Custom Auth Plugin
+    await fastify.register(authPlugin);
+
+    // Register Auth Routes
+    await fastify.register(authRoutes, { prefix: '/api/v1/auth' });
 
     // Health check route
     fastify.get('/health', async (_request, reply) => {
