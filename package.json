@@ -1,21 +1,21 @@
 {
   "name": "dispatchpay",
+  "private": true,
   "version": "1.0.0",
   "description": "Operations and payout platform for businesses that manage their own delivery riders.",
-  "main": "index.js",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "echo \"Configure app-specific dev scripts later\"",
+    "build": "echo \"Configure build scripts later\"",
+    "lint": "echo \"Configure linting later\"",
+    "test": "echo \"Configure testing later\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jahaziel2121/DispatchPay.git"
+    "url": "https://github.com/Jahaziel2121/DispatchPay.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Jahaziel2121/DispatchPay/issues"
-  },
-  "homepage": "https://github.com/Jahaziel2121/DispatchPay#readme"
+  "license": "MIT"
 }
