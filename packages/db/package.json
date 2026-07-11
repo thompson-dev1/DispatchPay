@@ -12,11 +12,11 @@
     "studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@libsql/client": "^0.6.2",
+    "@libsql/client": "^0.17.4",
     "dotenv": "^16.4.5",
-    "drizzle-orm": "^0.31.2"
+    "drizzle-orm": "^0.45.2"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.22.7"
+    "drizzle-kit": "^0.31.10"
   }
 }
