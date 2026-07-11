@@ -4,18 +4,31 @@
   "version": "1.0.0",
   "description": "Operations and payout platform for businesses that manage their own delivery riders.",
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
-    "dev": "echo \"Configure app-specific dev scripts later\"",
-    "build": "echo \"Configure build scripts later\"",
-    "lint": "echo \"Configure linting later\"",
-    "test": "echo \"Configure testing later\""
+    "dev:api": "npm run dev --workspace=apps/backend-api",
+    "dev:web": "npm run dev --workspace=apps/business-web",
+    "dev:pwa": "npm run dev --workspace=apps/rider-pwa",
+    "build:api": "npm run build --workspace=apps/backend-api",
+    "build:web": "npm run build --workspace=apps/business-web",
+    "build:pwa": "npm run build --workspace=apps/rider-pwa",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:generate": "npm run generate --workspace=packages/db",
+    "db:migrate": "npm run migrate --workspace=packages/db",
+    "db:studio": "npm run studio --workspace=packages/db"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Jahaziel2121/DispatchPay.git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  }
 }
