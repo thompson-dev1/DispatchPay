@@ -30,5 +30,8 @@
   "license": "MIT",
   "engines": {
     "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "drizzle-orm": "^0.45.2"
   }
 }
