@@ -3,7 +3,7 @@ import cors from '@fastify/cors';
 import cookie from '@fastify/cookie';
 import jwt from '@fastify/jwt';
 import * as dotenv from 'dotenv';
-import { db } from '@dispatchpay/db';
+import { db, sql } from '@dispatchpay/db';
 import authPlugin from './plugins/authenticate';
 import authRoutes from './routes/auth';
 import deliveryRoutes from './routes/deliveries';
@@ -111,8 +111,5 @@ const start = async () => {
     process.exit(1);
   }
 };
-
-// Import sql tag safely
-import { sql } from '@dispatchpay/db';
 
 start();
