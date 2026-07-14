@@ -25,7 +25,7 @@ const authPlugin: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   fastify.decorate('authenticate', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       await request.jwtVerify();
-    } catch (err) {
+    } catch {
       reply.status(401).send({ error: 'Unauthorized', message: 'Invalid or missing authentication token' });
     }
   });

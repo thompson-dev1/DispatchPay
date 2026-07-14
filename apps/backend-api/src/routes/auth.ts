@@ -33,7 +33,7 @@ const authRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
       });
     }
 
-    const { businessName, businessEmail, adminName: _adminName, adminEmail, adminPassword } = bodyResult.data;
+    const { businessName, businessEmail, adminEmail, adminPassword } = bodyResult.data;
 
     try {
       // Execute atomically in a transaction
@@ -527,7 +527,7 @@ const authRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
           businessId: user.businessId,
         },
       });
-    } catch (err) {
+    } catch {
       return reply.status(401).send({ error: 'Unauthorized', message: 'Invalid or expired refresh token.' });
     }
   });

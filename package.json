@@ -17,8 +17,9 @@
     "build": "npm run build --workspaces --if-present",
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --build",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
+    "sanity": "npm run lint && npm run typecheck && npm run test",
     "db:generate": "npm run generate --workspace=packages/db",
     "db:migrate": "npm run migrate --workspace=packages/db",
     "db:studio": "npm run studio --workspace=packages/db"
@@ -32,6 +33,13 @@
     "node": ">=20.0.0"
   },
   "devDependencies": {
-    "drizzle-orm": "^0.45.2"
+    "@eslint/js": "^9.31.0",
+    "@types/node": "^22.16.5",
+    "drizzle-orm": "^0.45.2",
+    "eslint": "^9.31.0",
+    "globals": "^15.9.0",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.37.0",
+    "vitest": "^2.0.5"
   }
 }
