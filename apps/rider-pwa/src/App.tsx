@@ -1,4 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { AuthProvider } from './context/auth.context';
+import DashboardPage from './pages/dashboard';
+import LoginPage from './pages/login';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,21 +20,15 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div style={{
-        fontFamily: 'system-ui, sans-serif',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        backgroundColor: '#0c0a09',
-        color: '#f5f5f4',
-        padding: '20px',
-        textAlign: 'center'
-      }}>
-        <h1>DispatchPay Rider PWA</h1>
-        <p style={{ color: '#a8a29e' }}>Mobile-first PWA experience coming soon.</p>
-      </div>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="*" element={<Navigate replace to="/login" />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

@@ -1,4 +1,15 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { AuthProvider } from './context/auth.context';
+import { UiProvider } from './context/ui.context';
+import CreateDeliveryPage from './pages/create-delivery';
+import DashboardPage from './pages/dashboard';
+import DeliveryDetailPage from './pages/delivery/detail';
+import DeliveryHistoryPage from './pages/delivery/history';
+import LoginPage from './pages/login';
+import RegisterPage from './pages/register';
+import RidersPage from './pages/riders';
+import SettingsPage from './pages/settings';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -8,6 +19,7 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: true,
     },
     mutations: {
+      // Financial operations must never auto-retry to avoid accidental duplication.
       retry: 0,
     },
   },
@@ -16,19 +28,23 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div style={{
-        fontFamily: 'system-ui, sans-serif',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        backgroundColor: '#09090b',
-        color: '#fafafa'
-      }}>
-        <h1>DispatchPay Business Dashboard</h1>
-        <p style={{ color: '#a1a1aa' }}>Clean, modern Stripe/Linear aesthetics coming soon.</p>
-      </div>
+      <AuthProvider>
+        <UiProvider>
+          <Router>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/create-delivery" element={<CreateDeliveryPage />} />
+              <Route path="/delivery/:id" element={<DeliveryDetailPage />} />
+              <Route path="/delivery/history" element={<DeliveryHistoryPage />} />
+              <Route path="/riders" element={<RidersPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="*" element={<Navigate replace to="/login" />} />
+            </Routes>
+          </Router>
+        </UiProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
